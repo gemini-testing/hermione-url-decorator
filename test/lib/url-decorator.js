@@ -64,6 +64,17 @@ describe('url-decorator', () => {
         assert.calledWith(baseUrlFn, '/?text=text&text=foo');
     });
 
+    it('should concat each parameters from array of values', () => {
+        const browser = mkBrowser();
+        const baseUrlFn = browser.url;
+
+        decorateUrl(browser, {query: {text: {value: ['foo', 'bar']}}});
+        browser.url('/?text=text');
+
+        assert.calledOn(baseUrlFn, browser);
+        assert.calledWith(baseUrlFn, '/?text=text&text=foo&text=bar');
+    });
+
     it('should override parameters if "concat" is false', () => {
         const browser = mkBrowser();
         const baseUrlFn = browser.url;
@@ -75,55 +86,44 @@ describe('url-decorator', () => {
         assert.calledWith(baseUrlFn, '/?text=foo');
     });
 
-    it('should add url parameters if they are set as a string without value field', () => {
+    it('should not add url parameters if they are specified as an empty object', () => {
         const browser = mkBrowser();
         const baseUrlFn = browser.url;
 
-        decorateUrl(browser, {query: {name: 'foo'}});
+        decorateUrl(browser, {query: {text: {}}});
         browser.url('/?text=text');
 
         assert.calledOn(baseUrlFn, browser);
-        assert.calledWith(baseUrlFn, '/?text=text&name=foo');
+        assert.calledWith(baseUrlFn, '/?text=text');
     });
 
-    it('should concat url parameters if they are set as a string without value field', () => {
-        const browser = mkBrowser();
-        const baseUrlFn = browser.url;
-
-        decorateUrl(browser, {query: {text: 'hello'}});
-        browser.url('/?text=text');
-
-        assert.calledOn(baseUrlFn, browser);
-        assert.calledWith(baseUrlFn, '/?text=text&text=hello');
-    });
-
-    it('should add url parameters if they are set as an array without value "field"', () => {
-        const browser = mkBrowser();
-        const baseUrlFn = browser.url;
-
-        decorateUrl(browser, {query: {name: ['foo', 'bar']}});
-        browser.url('/?text=text');
-
-        assert.calledOn(baseUrlFn, browser);
-        assert.calledWith(baseUrlFn, '/?text=text&name=foo&name=bar');
-    });
-
-    it('should concat url parameters if they are set as an array without value "field"', () => {
-        const browser = mkBrowser();
-        const baseUrlFn = browser.url;
-
-        decorateUrl(browser, {query: {text: ['hey', 'you']}});
-        browser.url('/?text=text');
-
-        assert.calledOn(baseUrlFn, browser);
-        assert.calledWith(baseUrlFn, '/?text=text&text=hey&text=you');
-    });
-
-    it('should not add url parameters if it is set as an object without "value" field', () => {
+    it('should not add url parameters if they are specified as an object without "value" field', () => {
         const browser = mkBrowser();
         const baseUrlFn = browser.url;
 
         decorateUrl(browser, {query: {text: {concat: false}}});
+        browser.url('/?text=text');
+
+        assert.calledOn(baseUrlFn, browser);
+        assert.calledWith(baseUrlFn, '/?text=text');
+    });
+
+    it('should not add url parameters if they are specified as an empty string', () => {
+        const browser = mkBrowser();
+        const baseUrlFn = browser.url;
+
+        decorateUrl(browser, {query: {name: {value: ''}}});
+        browser.url('/?text=text');
+
+        assert.calledOn(baseUrlFn, browser);
+        assert.calledWith(baseUrlFn, '/?text=text');
+    });
+
+    it('should not add url parameters if they are specified as an empty array', () => {
+        const browser = mkBrowser();
+        const baseUrlFn = browser.url;
+
+        decorateUrl(browser, {query: {name: {value: []}}});
         browser.url('/?text=text');
 
         assert.calledOn(baseUrlFn, browser);

@@ -64,6 +64,17 @@ describe('url-decorator', () => {
         assert.calledWith(baseUrlFn, '/?text=text&text=foo');
     });
 
+    it('should concat parameters specified as number', () => {
+        const browser = mkBrowser();
+        const baseUrlFn = browser.url;
+
+        decorateUrl(browser, {query: {text: {value: 15}}});
+        browser.url('/?text=text');
+
+        assert.calledOn(baseUrlFn, browser);
+        assert.calledWith(baseUrlFn, '/?text=text&text=15');
+    });
+
     it('should concat each parameters from array of values', () => {
         const browser = mkBrowser();
         const baseUrlFn = browser.url;

@@ -1,6 +1,6 @@
 {
   "name": "hermione-url-decorator",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Plugin for hermione which adds additional params to current browser url",
   "main": "lib/index.js",
   "repository": {

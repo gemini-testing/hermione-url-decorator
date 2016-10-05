@@ -38,11 +38,9 @@ module.exports = {
 };
 ```
 
-To pass additional url parameters you can use environment variables,
-which should start with `HERMIONE_URL_` or specify them in the `hermione` config file.
+To pass additional url parameters you can use environment variables, which should start with `HERMIONE_URL_` or specify them in the `hermione` config file.
 
-For example, you have the following test url: `http://localhost/test/?name=hermione` and
-you want to add query parameter via environment variable:
+For example, you have the following test url: `http://localhost/test/?name=hermione` and you want to add query parameter via environment variable:
 
 ```bash
 HERMIONE_URL_QUERY_TEXT=ololo hermione
@@ -72,7 +70,7 @@ Note: environment variables have higher priority than config values.
 
 In previous example you have seen how add url parameters. Now we look how to concat and override url parameters.
 
-Suppose, you want to add query parameter `name` which is already present in your test url: `http://localhost/test/?name=hermione` and you don't want to override it:
+Suppose, you want to add query parameter `name` which is already presented in your test url: `http://localhost/test/?name=hermione` and you don't want to override it:
 
 ```js
 'hermione-url-decorator': {
